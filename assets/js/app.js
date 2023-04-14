@@ -1,7 +1,6 @@
 //------------------ define variable ------------------------//
-
 let form = document.getElementById('form');
-let text  = form.querySelector('#tweet');
+let input = form.querySelector('#tweet');
 let putDataDiv = form.parentElement.nextElementSibling;
 let tBody = document.querySelector('#tableBody');
 let localStorageitam = getFromLocalStorage();
@@ -11,20 +10,37 @@ eventLitener();
 function eventLitener()
 {
       form.addEventListener("submit",setData);
+      input.addEventListener('keyup',headenFunction);
       document.addEventListener('DOMContentLoaded', putListToLocalStorage);
 }
 
 //---------------------- function ----------------------------------//
 
 
+function headenFunction(event)
+{
+     let  actualvalue  = event.target.value; 
+     let result = actualvalue.replace(/\s+/g,'_')
+
+     document.querySelector('#FormText').innerText = result;
+}
+
+
 
 function setData(event)
 {
-     if(text.value != "")
-     {
-        setLocalStorage(text.value);
-        createTableRow(text.value);
-        text.value = "";
+
+
+     let text =  event.target.querySelector('#tweet').value;
+      if (text != "")
+      {
+
+          text = text.replace(/\s+/g,'_')
+
+           setLocalStorage(text);
+           createTableRow(text);
+           event.target.querySelector('#tweet').value = "";
+           document.querySelector('#FormText').innerText = "";
      }
 }
 
